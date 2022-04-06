@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>📅 text-calendar</title>
+</head>
+<body>
+<pre id="txt-cal"></pre>
+
+<footer>
+	<p class="inspired">Inspired by: <a href="https://demeyere.design/text-calendar/">demeyere.design/text-calendar</a></p>
+	<p class="hint">Use your keyboard <kbd>⯇</kbd> <kbd>⯈</kbd> arrows to change year </p>
+</footer>
+<script>
+
+// static variables
+var norm_array = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 ];
+
+var leap_array = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 ];
+
+var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+
+
+// returns the text-calendar for the given year
+function get_text_calendar( year ) {
+
+	var text  = "⯇---------- " + year + " ----------⯈\n\n";
+	    text += "        Mo Tu We Th Fr Sa Su\n";
+	    text += "----------------------------\n";
+
+	
+	var month_i = 0;
+
+	var calendar_array    = (new Date(year, 1, 29).getMonth() == 1) ? leap_array : norm_array; // checks for leap year
+	var year_2D           = new Array(53); // 53 "weeks" each of which will have an array of 7 "days"
+	var day               = 0;
+	var week              = 0;
+	var first_day_of_year = new Date(year, 0, 1).getUTCDay(); // Monday is 0 / Sunday is 6
+
+	// handle first week by
+	// putting the first day of year in the right place
+	year_2D[0] = new Array(7);
+	for (i=first_day_of_year ; i<7 ; i++) {
+		year_2D[0][i] = calendar_array[day++];
+	}
+
+	// continue with rest of the weeks
+	for (j=1 ; j<53 ; j++) {
+		year_2D[j] = new Array(7);
+
+		for (k=0 ; k<7 ; k++) {
+			year_2D[j][k] = calendar_array[day++];
+		}
+	}
+
+
+	// find the correct ISO 8601 week number for the first week:
+	//  - If 1 January is on a Monday, Tuesday, Wednesday or Thursday, it is in W01.
+	//  - If it is on a Friday, it is part of W53 of the previous year.
+	//  - If it is on a Saturday, it is part of the last week of the previous year which is numbered W52 in a common year and W53 in a leap year.
+	//  - If it is on a Sunday, it is part of W52 of the previous year.
+
+	if (first_day_of_year <= 3) { // Mon, Tue, Wed or Thu
+		week = 1;
+	}
+	else if (first_day_of_year == 4) {  // Fri
+		week = 53;
+	}
+	else if (first_day_of_year == 5) {  // Sat
+		(new Date(year-1, 1, 29).getMonth() == 1) ? week=53 : week=52; 
+	}
+	else if (first_day_of_year == 6) {
+		week = 52;
+	}
+
+
+
+	// iterate the year_2D array
+	// and generate the text-calendar
+	for (i=0 ; i<53 ; i++) {
+
+		month_str = "      ";
+		num_str   = "";
+
+		for (j=0 ; j<7 ; j++) {
+			if ( year_2D[i][j]==1 ) {
+				month_str = " " + months[ month_i++ ] + "  "; // add month if the line has the 1st day of a month
+			}
+
+			// check for undefined (emplty) cells
+			if ( year_2D[i][j] ) {
+				num_str += year_2D[i][j].toString().padStart(2,0) + " ";
+			} else {
+				num_str += "   "; // if undefined add spaces
+			}
+		}
+		line = week.toString().padStart(2,0) + month_str + num_str;
+
+		// handle the week numbering in case we started with W52 or W53
+		if ( 
+			(i==0) && 
+		    ((week==52) || (week==53))
+		   ) { 
+			week=1;
+		} else {
+			week++;
+		}
+
+		text += line + "\n";
+	}
+
+	return text;
+}
+
+
+// display current year text-calendar when page loads:
+var year_now      =  new Date().getFullYear();
+var year_now_text = get_text_calendar( year_now );
+document.querySelector('#txt-cal').innerHTML = year_now_text;
+
+
+// change year (next / previous) when the user presses (right / left) arrows
+document.addEventListener('keydown', function(e) {
+	if ( event.keyCode == 37) {
+		year_now = year_now - 1;
+        document.querySelector('#txt-cal').innerHTML = get_text_calendar( year_now );
+	} else if ( event.keyCode == 39) {
+		year_now = year_now + 1;
+        document.querySelector('#txt-cal').innerHTML = get_text_calendar( year_now );
+	}
+}); 
+
+
+</script>
+<style>
+footer   {font-family: sans-serif; font-size: 11px; color: #858585;}
+footer a {color: #436f9d;}
+</style>
+</body>
+</html>
