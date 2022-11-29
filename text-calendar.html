@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,11 @@
 	<title>📅 text-calendar</title>
 </head>
 <body>
-<pre id="txt-cal"></pre>
+<pre>
+<span id="prev"></span>               <span id="next"></span>
+
+<span id="txt-cal"></span>
+</pre>
 
 <footer>
 	<p class="inspired">Inspired by: <a href="https://demeyere.design/text-calendar/">demeyere.design/text-calendar</a></p>
@@ -48,7 +53,7 @@ var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov",
 // returns the text-calendar for the given year
 function get_text_calendar( year ) {
 
-	var text  = "⯇---------- " + year + " ----------⯈\n\n";
+	var text  = "----------- " + year + " -----------\n";
 	    text += "        Mo Tu We Th Fr Sa Su\n";
 	    text += "----------------------------\n";
 
@@ -137,26 +142,54 @@ function get_text_calendar( year ) {
 }
 
 
+function helper_load_prev() {
+	year_now = year_now - 1;
+    document.querySelector('#txt-cal').innerHTML = get_text_calendar( year_now );
+    document.querySelector('#prev').innerHTML = "⯇ " + (year_now-1);
+    document.querySelector('#next').innerHTML = (year_now+1) + " ⯈";
+}
+
+function helper_load_next() {
+	year_now = year_now + 1;
+	document.querySelector('#txt-cal').innerHTML = get_text_calendar( year_now );
+	document.querySelector('#prev').innerHTML = "⯇ " + (year_now-1);
+	document.querySelector('#next').innerHTML = (year_now+1) + " ⯈";
+}
+
+
 // display current year text-calendar when page loads:
 var year_now      =  new Date().getFullYear();
 var year_now_text = get_text_calendar( year_now );
 document.querySelector('#txt-cal').innerHTML = year_now_text;
 
+document.querySelector('#prev').innerHTML = "⯇ " + (year_now-1);
+document.querySelector('#next').innerHTML = (year_now+1) + " ⯈";
+
 
 // change year (next / previous) when the user presses (right / left) arrows
 document.addEventListener('keydown', function(e) {
 	if ( event.keyCode == 37) {
-		year_now = year_now - 1;
-        document.querySelector('#txt-cal').innerHTML = get_text_calendar( year_now );
+		helper_load_prev();
 	} else if ( event.keyCode == 39) {
-		year_now = year_now + 1;
-        document.querySelector('#txt-cal').innerHTML = get_text_calendar( year_now );
+		helper_load_next();
 	}
-}); 
+});
+
+
+document.querySelector('#prev').addEventListener('click', function(e) {
+    helper_load_prev();
+});
+
+document.querySelector('#next').addEventListener('click', function(e) {
+    helper_load_next();
+});
+
+
 
 
 </script>
 <style>
+#prev, #next {cursor: pointer;}
 footer   {font-family: sans-serif; font-size: 11px; color: #858585;}
 footer a {color: #436f9d;}
 </style>
