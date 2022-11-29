@@ -7,8 +7,9 @@ Simple, raw-text, ascii calendar inspired by [demeyere.design/text-calendar/](ht
 ## example
 
 ```
-⯇---------- 2022 ----------⯈
+⯇ 2021               2023 ⯈
 
+----------- 2022 -----------
         Mo Tu We Th Fr Sa Su
 ----------------------------
 52 Jan                 01 02 
