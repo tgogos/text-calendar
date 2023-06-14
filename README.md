@@ -2,7 +2,12 @@
 
 Simple, raw-text, ascii calendar inspired by [demeyere.design/text-calendar/](https://demeyere.design/text-calendar/).
 
-[**Demo**](https://gogos.me/text-calendar)
+**Demos**  
+  - [gogos.me/text-calendar](https://gogos.me/text-calendar)  
+  - [codepen.io/tgogos/full/qBpoPwz](https://codepen.io/tgogos/full/qBpoPwz)
+  - 4x3: [gogos.me/text-calendar-4x3/](https://gogos.me/text-calendar-4x3/)
+  - 4x3: [codepen.io/tgogos/full/BaVwNjy](https://codepen.io/tgogos/full/BaVwNjy)
+
 
 ## example
 
@@ -68,7 +73,6 @@ Simple, raw-text, ascii calendar inspired by [demeyere.design/text-calendar/](ht
 ```
 
 # 📅 text-calendar-4x3
-[**Demo**](https://gogos.me/text-calendar-4x3/)
 
 ```
 ───────────────────────────────────────────── 2022 ──────────────────────────────────────────────
