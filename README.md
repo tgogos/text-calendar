@@ -2,6 +2,11 @@
 
 Simple, raw-text, ascii calendar inspired by [demeyere.design/text-calendar/](https://demeyere.design/text-calendar/).
 
+✅ displays current year when the page loads  
+✅ change to previous/next year easily by clicking or using your keyboard left/right ⯇⯈  
+✅ ISO 8601 week numbers  
+✅ single `html` file with `js` generating the text (see [here](https://github.com/tgogos/text-calendar/blob/main/text-calendar.html#L20))
+
 **Demos**  
   - [gogos.me/text-calendar](https://gogos.me/text-calendar)  
   - [codepen.io/tgogos/full/qBpoPwz](https://codepen.io/tgogos/full/qBpoPwz)
