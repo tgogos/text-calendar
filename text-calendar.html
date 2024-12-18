@@ -66,6 +66,10 @@ function get_text_calendar( year ) {
 	var week              = 0;
 	var first_day_of_year = new Date(year, 0, 1).getUTCDay(); // Monday is 0 / Sunday is 6
 
+	// variables for handling "current year/week" and display a ⯇ sign
+	var current_week = getISOWeekNumber();
+	var current_year = new Date().getFullYear();
+
 	// handle first week by
 	// putting the first day of year in the right place
 	year_2D[0] = new Array(7);
@@ -124,6 +128,10 @@ function get_text_calendar( year ) {
 			}
 		}
 		line = week.toString().padStart(2,0) + month_str + num_str;
+
+		if ((week==current_week) && (year==current_year)) {
+			line += "⯇"
+		}
 
 		// handle the week numbering in case we started with W52 or W53
 		if ( 
@@ -184,6 +192,15 @@ document.querySelector('#next').addEventListener('click', function(e) {
     helper_load_next();
 });
 
+
+
+function getISOWeekNumber(date = new Date()) {
+    const tempDate = new Date(date.getTime());
+    tempDate.setUTCDate(tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 1));
+    const weekNumber = Math.ceil((((tempDate - yearStart) / 86400000) + 1) / 7);
+    return weekNumber;
+}
 
 
 
