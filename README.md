@@ -1,4 +1,4 @@
-# 📅 text-calendar
+# 📅 text-calendar 
 
 Simple, raw-text, ascii calendar inspired by [demeyere.design/text-calendar/](https://demeyere.design/text-calendar/).
 
